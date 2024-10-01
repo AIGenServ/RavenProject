@@ -20,6 +20,7 @@
  */
 
 extern uint32_t nKAWPOWActivationTime;
+extern uint32_t nSHA256KawpowSwitchActivationTime;
 extern bool fKawpowAsMiningAlgo;    // declared global here but value is set in chainparams.cpp
 
 class BlockNetwork
@@ -65,7 +66,8 @@ public:
         READWRITE(hashMerkleRoot);
         READWRITE(nTime);
         READWRITE(nBits);
-        if (nTime < nKAWPOWActivationTime && !fKawpowAsMiningAlgo) {
+        //If the time is before the kawpow activation time OR (on testnet, kawpow is not set as the mining algo, and past the sha256 switch activation time)
+        if (nTime < nKAWPOWActivationTime || (bNetwork.fOnTestnet && !fKawpowAsMiningAlgo && nTime >= nSHA256KawpowSwitchActivationTime)) {
             READWRITE(nNonce);
         } else {
             READWRITE(nHeight);

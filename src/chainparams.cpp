@@ -272,6 +272,7 @@ public:
         nKAWPOWActivationTime = nKAAAWWWPOWActivationTime;
 
         // Use SHA256 or KawPow depending on this choice
+        nSHA256KawpowSwitchActivationTime = 1730332800; // UTC: Thur Oct 31 2024 00:00:00
         fKawpowAsMiningAlgo = true;     // The value is set here but declared as global in primitives/block.h
         /** RVN End **/
     }
@@ -497,6 +498,7 @@ public:
         nKAWPOWActivationTime = nKAAAWWWPOWActivationTime;
 
         // Use SHA256 or KawPow depending on this choice
+        nSHA256KawpowSwitchActivationTime = 1730332800; // UTC: Thur Oct 31 2024 00:00:00
         fKawpowAsMiningAlgo = false;     // The value is set here but declared as global in primitives/block.h
         /** RVN End **/
     }
@@ -704,6 +706,7 @@ public:
         nKAAAWWWPOWActivationTime = 3582830167;
         nKAWPOWActivationTime = nKAAAWWWPOWActivationTime;
         // Use SHA256 or KawPow depending on this choice
+        nSHA256KawpowSwitchActivationTime = 1730332800; // UTC: Thur Oct 31 2024 00:00:00
         fKawpowAsMiningAlgo = false;     // The value is set here but declared as global in primitives/block.h
         /** RVN End **/
     }

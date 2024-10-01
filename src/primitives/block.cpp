@@ -17,6 +17,7 @@ static const uint32_t TESTNET_X16RV2ACTIVATIONTIME = 1567533600;
 static const uint32_t REGTEST_X16RV2ACTIVATIONTIME = 1569931200;
 
 uint32_t nKAWPOWActivationTime;
+uint32_t nSHA256KawpowSwitchActivationTime;
 bool fKawpowAsMiningAlgo;
 
 BlockNetwork bNetwork = BlockNetwork();
@@ -56,7 +57,7 @@ uint256 CBlockHeader::GetHash() const
         return HashX16R(BEGIN(nVersion), END(nNonce), hashPrevBlock);
     } else {
         // Kawpow activation time has passed, now check if we are on the testnet
-        if (bNetwork.fOnTestnet && !fKawpowAsMiningAlgo) {
+        if (bNetwork.fOnTestnet && !fKawpowAsMiningAlgo && nTime >= nSHA256KawpowSwitchActivationTime) {
             // If on testnet and Kawpow is disabled, use SerializeHash (CPU-friendly)
             return SerializeHash(*this);
         } else {
@@ -87,7 +88,7 @@ uint256 CBlockHeader::GetHashFull(uint256& mix_hash) const
         return HashX16R(BEGIN(nVersion), END(nNonce), hashPrevBlock);
     } else {
         // Kawpow activation time has passed, now check if we are on the testnet
-        if (bNetwork.fOnTestnet && !fKawpowAsMiningAlgo) {
+        if (bNetwork.fOnTestnet && !fKawpowAsMiningAlgo && nTime >= nSHA256KawpowSwitchActivationTime) {
             // If on testnet and Kawpow is disabled, use SerializeHash (CPU-friendly)
             return SerializeHash(*this);
         } else {
