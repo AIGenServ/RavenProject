@@ -270,6 +270,9 @@ public:
 
         nKAAAWWWPOWActivationTime = 1588788000; // UTC: Wed May 06 2020 18:00:00
         nKAWPOWActivationTime = nKAAAWWWPOWActivationTime;
+
+        // Use SHA256 or KawPow depending on this choice
+        fKawpowAsMiningAlgo = true;     // The value is set here but declared as global in primitives/block.h
         /** RVN End **/
     }
 };
@@ -417,6 +420,7 @@ public:
         vSeeds.emplace_back("seed-testnet-raven.bitactivate.com", false);
         vSeeds.emplace_back("seed-testnet-raven.ravencoin.com", false);
         vSeeds.emplace_back("seed-testnet-raven.ravencoin.org", false);
+        vSeeds.emplace_back("trvn.crypticwizardry.com", false);
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,111);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,196);
@@ -491,6 +495,9 @@ public:
 
         nKAAAWWWPOWActivationTime = 1585159200; //Wed Mar 25 2020 18:00:00 UTC
         nKAWPOWActivationTime = nKAAAWWWPOWActivationTime;
+
+        // Use SHA256 or KawPow depending on this choice
+        fKawpowAsMiningAlgo = false;     // The value is set here but declared as global in primitives/block.h
         /** RVN End **/
     }
 };
@@ -696,6 +703,8 @@ public:
         // If you are looking to test the kawpow hashing function in regtest. You will need to change this number
         nKAAAWWWPOWActivationTime = 3582830167;
         nKAWPOWActivationTime = nKAAAWWWPOWActivationTime;
+        // Use SHA256 or KawPow depending on this choice
+        fKawpowAsMiningAlgo = false;     // The value is set here but declared as global in primitives/block.h
         /** RVN End **/
     }
 };

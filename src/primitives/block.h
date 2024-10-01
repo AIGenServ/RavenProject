@@ -20,6 +20,7 @@
  */
 
 extern uint32_t nKAWPOWActivationTime;
+extern bool fKawpowAsMiningAlgo;    // declared global here but value is set in chainparams.cpp
 
 class BlockNetwork
 {
@@ -64,7 +65,7 @@ public:
         READWRITE(hashMerkleRoot);
         READWRITE(nTime);
         READWRITE(nBits);
-        if (nTime < nKAWPOWActivationTime) {
+        if (nTime < nKAWPOWActivationTime && !fKawpowAsMiningAlgo) {
             READWRITE(nNonce);
         } else {
             READWRITE(nHeight);
@@ -95,6 +96,7 @@ public:
     uint256 GetHash() const;
     uint256 GetX16RHash() const;
     uint256 GetX16RV2Hash() const;
+    uint256 GetSerializeHash() const;
 
     uint256 GetHashFull(uint256& mix_hash) const;
     uint256 GetKAWPOWHeaderHash() const;

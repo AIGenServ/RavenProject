@@ -423,7 +423,7 @@ public:
         READWRITE(hashMerkleRoot);
         READWRITE(nTime);
         READWRITE(nBits);
-        if (nTime < nKAWPOWActivationTime) {
+        if (nTime < nKAWPOWActivationTime && !fKawpowAsMiningAlgo) {
             READWRITE(nNonce);
         } else {
             //KAWPOW
