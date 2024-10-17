@@ -499,7 +499,18 @@ public:
 
         // Use SHA256 or KawPow depending on this choice
         nSHA256KawpowSwitchActivationTime = 1730332800; // UTC: Thur Oct 31 2024 00:00:00
-        fKawpowAsMiningAlgo = false;     // The value is set here but declared as global in primitives/block.h
+        //fKawpowAsMiningAlgo = false;     // The value is set here but declared as global in primitives/block.h
+        
+        //Use Global Arguments from raven.conf to determine algo, SHA256 for SHA 
+        if (gArgs.GetBoolArg("-testnet", false)) {
+            std::string algo = gArgs.GetArg("-algo", "Kawpow");  // Default to Kawpow if `algo` not set
+
+            if (algo == "SHA256") {
+                fKawpowAsMiningAlgo = false;   // Switch to SHA256 on testnet
+            } else {
+                fKawpowAsMiningAlgo = true;    // Use Kawpow by default or if set to Kawpow
+            }
+        }
         /** RVN End **/
     }
 };
