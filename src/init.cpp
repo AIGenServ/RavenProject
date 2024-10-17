@@ -913,6 +913,22 @@ void InitParameterInteraction()
             LogPrintf("%s: Ignoring blockmaxsize setting which is overridden by blockmaxweight", __func__);
         }
     }
+
+    // Ensure -algo only works on testnet and validate the algo value
+    if (gArgs.GetBoolArg("-testnet", false)) {
+        std::string algo = gArgs.GetArg("-algo", "Kawpow");  // Default to Kawpow if not set
+
+        // Hard-coded validation logic
+        if (algo != "SHA256" && algo != "Kawpow") {
+            // Log an error but don't prevent the node from starting
+            LogPrintf("%s: Invalid value for -algo: %s. Defaulting to Kawpow.\n", __func__, algo);
+        }
+    } else {
+        // Log if -algo is ignored because -testnet is not enabled
+        if (gArgs.IsArgSet("-algo")) {
+            LogPrintf("%s: Ignoring -algo setting as -testnet is not enabled.\n", __func__);
+        }
+    }
 }
 
 static std::string ResolveErrMsg(const char * const optname, const std::string& strBind)
