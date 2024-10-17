@@ -506,9 +506,11 @@ public:
             std::string algo = gArgs.GetArg("-algo", "Kawpow");  // Default to Kawpow if `algo` not set
 
             if (algo == "SHA256") {
-                fKawpowAsMiningAlgo = false;   // Switch to SHA256 on testnet
+                fKawpowAsMiningAlgo = false;
+            } else if (algo == "Kawpow") {
+                fKawpowAsMiningAlgo = true;
             } else {
-                fKawpowAsMiningAlgo = true;    // Use Kawpow by default or if set to Kawpow
+                return InitError(strprintf("Invalid value for -algo: %s. Supported values are 'SHA256' and 'Kawpow'.", algo));
             }
         }
         /** RVN End **/
