@@ -139,7 +139,7 @@ UniValue generateBlocks(std::shared_ptr<CReserveScript> coinbaseScript, int nGen
         uint256 mix_hash;
         while (nMaxTries > 0 && pblock->nNonce < nInnerLoopCount && !CheckProofOfWork(pblock->GetHashFull(mix_hash), pblock->nBits,
                                                                                       GetParams().GetConsensus())) {
-            if (pblock->nTime < nKAWPOWActivationTime) {
+            if (pblock->nTime < nKAWPOWActivationTime && !fKawpowAsMiningAlgo) {
                 ++pblock->nNonce;
             } else  {
                 ++pblock->nNonce64;
@@ -714,7 +714,7 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
         result.push_back(Pair("default_witness_commitment", HexStr(pblocktemplate->vchCoinbaseCommitment.begin(), pblocktemplate->vchCoinbaseCommitment.end())));
     }
 
-    if (pblock->nTime >= nKAWPOWActivationTime) {
+    if (pblock->nTime >= nKAWPOWActivationTime && fKawpowAsMiningAlgo) {
         std::string address = gArgs.GetArg("-miningaddress", "");
         if (IsValidDestinationString(address)) {
             static std::string lastheader = "";

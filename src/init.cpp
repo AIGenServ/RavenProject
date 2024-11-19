@@ -539,6 +539,7 @@ std::string HelpMessage(HelpMessageMode mode)
 
     strUsage += HelpMessageGroup(_("Debugging/Testing options:"));
     strUsage += HelpMessageOpt("-uacomment=<cmt>", _("Append comment to the user agent string"));
+    strUsage += HelpMessageOpt("-algo=<algo>", _("Sets the value for the mining algo. Default is Kawpow; alternative is SHA256, which is useful for quick testnet mining."));
     if (showDebug)
     {
         strUsage += HelpMessageOpt("-checkblocks=<n>", strprintf(_("How many blocks to check at startup (default: %u, 0 = all)"), DEFAULT_CHECKBLOCKS));
@@ -910,6 +911,22 @@ void InitParameterInteraction()
             LogPrintf("%s: parameter interaction: -blockmaxsize=%d -> setting -blockmaxweight=%d (-blockmaxsize is deprecated!)\n", __func__, max_size, max_size * WITNESS_SCALE_FACTOR);
         } else {
             LogPrintf("%s: Ignoring blockmaxsize setting which is overridden by blockmaxweight", __func__);
+        }
+    }
+
+    // Ensure -algo only works on testnet and validate the algo value
+    if (gArgs.GetBoolArg("-testnet", false)) {
+        std::string algo = gArgs.GetArg("-algo", "Kawpow");  // Default to Kawpow if not set
+
+        // Hard-coded validation logic
+        if (algo != "SHA256" && algo != "Kawpow") {
+            // Log an error but don't prevent the node from starting
+            LogPrintf("%s: Invalid value for -algo: %s. Defaulting to Kawpow.\n", __func__, algo);
+        }
+    } else {
+        // Log if -algo is ignored because -testnet is not enabled
+        if (gArgs.IsArgSet("-algo")) {
+            LogPrintf("%s: Ignoring -algo setting as -testnet is not enabled.\n", __func__);
         }
     }
 }
